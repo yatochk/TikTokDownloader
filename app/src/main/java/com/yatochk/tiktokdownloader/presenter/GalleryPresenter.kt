@@ -1,0 +1,3 @@
+package com.yatochk.tiktokdownloader.presenter
+
+class GalleryPresenter
