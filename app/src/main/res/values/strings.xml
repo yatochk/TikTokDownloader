@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">TiktokDownloader</string>
+    <string name="app_name">TikTokDownloader</string>
     <string name="tab_download">Download</string>
     <string name="tab_history">History</string>
+    <string name="clear_description">clear</string>
+    <string name="url_hint">Paste URL here</string>
+    <string name="button_open">Open TikTok</string>
+    <string name="button_paste">Paste</string>
 </resources>

@@ -2,12 +2,12 @@ package com.yatochk.tiktokdownloader.view.main
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.dagger.App
 
 class MainPagerAdapter(fragmentManager: FragmentManager, private val fragments: List<Fragment>) :
-    FragmentPagerAdapter(fragmentManager) {
+    FragmentStatePagerAdapter(fragmentManager) {
 
     override fun getCount(): Int = fragments.size
 
