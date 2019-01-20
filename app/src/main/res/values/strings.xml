@@ -6,4 +6,6 @@
     <string name="url_hint">Paste URL here</string>
     <string name="button_open">Open TikTok</string>
     <string name="button_paste">Paste</string>
+    <string name="install_tik_tok">Please install TikTok</string>
+    <string name="go_install">Go to install</string>
 </resources>

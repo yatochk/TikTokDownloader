@@ -11,6 +11,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private val adapter = MainPagerAdapter(
+        supportFragmentManager,
+        listOf(
+            DownloadFragment(),
+            GalleryFragment()
+        )
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,13 +28,7 @@ class MainActivity : AppCompatActivity() {
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.tab_history)))
         tab_layout.tabGravity = TabLayout.GRAVITY_FILL
 
-        main_pager.adapter = MainPagerAdapter(
-            supportFragmentManager,
-            listOf(
-                DownloadFragment(),
-                GalleryFragment()
-            )
-        )
+        main_pager.adapter = adapter
         main_pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tab_layout))
         tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -39,5 +41,12 @@ class MainActivity : AppCompatActivity() {
             override fun onTabReselected(tab: TabLayout.Tab) {
             }
         })
+    }
+
+    override fun onBackPressed() {
+        if (main_pager.currentItem == 1)
+            main_pager.currentItem = 0
+        else
+            super.onBackPressed()
     }
 }
