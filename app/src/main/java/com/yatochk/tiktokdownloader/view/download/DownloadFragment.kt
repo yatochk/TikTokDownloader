@@ -3,11 +3,11 @@ package com.yatochk.tiktokdownloader.view.download
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.utils.TIK_TOK_PACKAGE
 import kotlinx.android.synthetic.main.fragment_download.*

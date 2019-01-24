@@ -2,7 +2,7 @@ package com.yatochk.tiktokdownloader.view
 
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.utils.URI_KEY
 import kotlinx.android.synthetic.main.activity_video.*

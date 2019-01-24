@@ -2,10 +2,10 @@ package com.yatochk.tiktokdownloader.view.galery
 
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.utils.URI_KEY
 import com.yatochk.tiktokdownloader.view.VideoActivity
@@ -29,9 +29,7 @@ class GalleryRecyclerAdapter(private var videos: ArrayList<Video>) :
                 context.startActivity(intent)
             }
         }
-
     }
-
 
     class ViewHolder(item: View) : RecyclerView.ViewHolder(item)
 }
