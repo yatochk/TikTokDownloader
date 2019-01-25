@@ -21,5 +21,5 @@ class PresenterModule {
 
     @Provides
     @Singleton
-    fun provideDownloadPresenter(): DownloadPresenter = DownloadPresenter()
+    fun provideDownloadPresenter(): DownloadPresenter = DownloadPresenter(App.component.model)
 }

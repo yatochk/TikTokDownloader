@@ -1,18 +1,26 @@
 package com.yatochk.tiktokdownloader.view.download
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.yatochk.tiktokdownloader.R
+import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.utils.TIK_TOK_PACKAGE
 import kotlinx.android.synthetic.main.fragment_download.*
 
-class DownloadFragment : Fragment() {
+class DownloadFragment : Fragment(), DownloaderView {
+
+    override fun showToast(msg: String) =
+        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
+
+    private val presenter = App.component.downloadPresenter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_download, container, false)
     }
@@ -25,13 +33,44 @@ class DownloadFragment : Fragment() {
             else
                 Snackbar.make(it, getString(R.string.install_tik_tok), Snackbar.LENGTH_LONG)
                     .setAction(getString(R.string.go_install)) {
-                        startActivity(
-                            Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("https://play.google.com/store/apps/details?id=$TIK_TOK_PACKAGE")
-                            )
-                        )
+                        presenter.clickSnackAction()
                     }.show()
         }
+
+        button_paste.setOnClickListener {
+            presenter.clickPaste()
+        }
+
+        button_clear.setOnClickListener {
+            presenter.clickClear()
+        }
+
+        edit_url.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                presenter.urlChange(s.toString())
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                //do nothing
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                //do nothing
+            }
+        })
     }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.bindView(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.unbindView()
+    }
+
+    override fun setUrl(url: String) =
+        edit_url.setText(url)
 }
