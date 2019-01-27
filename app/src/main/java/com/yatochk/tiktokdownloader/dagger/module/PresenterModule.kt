@@ -17,7 +17,7 @@ class PresenterModule {
 
     @Provides
     @Singleton
-    fun provideGalleryPresenter(): GalleryPresenter = GalleryPresenter()
+    fun provideGalleryPresenter(): GalleryPresenter = GalleryPresenter(App.component.model)
 
     @Provides
     @Singleton

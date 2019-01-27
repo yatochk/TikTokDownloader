@@ -5,6 +5,8 @@ import com.yatochk.tiktokdownloader.dagger.module.AppModule
 import com.yatochk.tiktokdownloader.dagger.module.ModelModule
 import com.yatochk.tiktokdownloader.dagger.module.PresenterModule
 import com.yatochk.tiktokdownloader.model.Model
+import com.yatochk.tiktokdownloader.model.db.StorageApi
+import com.yatochk.tiktokdownloader.model.download.TikTokApi
 import com.yatochk.tiktokdownloader.presenter.DownloadPresenter
 import com.yatochk.tiktokdownloader.presenter.GalleryPresenter
 import com.yatochk.tiktokdownloader.presenter.MainPresenter
@@ -19,4 +21,6 @@ interface AppComponent {
     val downloadPresenter: DownloadPresenter
     val model: Model
     val context: Context
+    val tikTokApi: TikTokApi
+    val storageApi: StorageApi
 }

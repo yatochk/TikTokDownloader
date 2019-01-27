@@ -1,6 +1,5 @@
 package com.yatochk.tiktokdownloader.view.galery
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.yatochk.tiktokdownloader.R
+import com.yatochk.tiktokdownloader.dagger.App
 import kotlinx.android.synthetic.main.fragment_gallery.*
+import java.io.File
 
-class GalleryFragment : Fragment() {
+class GalleryFragment : Fragment(), Gallery {
+    private val adapter = GalleryRecyclerAdapter()
+    private val presenter = App.component.galleryPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_gallery, container, false)
@@ -18,18 +21,12 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val videos = ArrayList<Video>()
-        for (i in 0..10) {
-            videos.add(
-                Video(
-                    Uri.parse("https://metanit.com/java/android/11.1.php"),
-                    Uri.parse("https://metanit.com/java/android/11.1.php")
-                )
-            )
-        }
-
+        presenter.bindView(this)
         recycler_video.layoutManager = GridLayoutManager(activity, 4)
-        recycler_video.adapter = GalleryRecyclerAdapter(videos)
+        recycler_video.adapter = adapter
+    }
+
+    override fun updateVideos(files: ArrayList<File>) {
+        adapter.submitList(files)
     }
 }

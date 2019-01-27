@@ -4,7 +4,9 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class ServerTasks : TikTokApi {
-    override fun downloadVideo(url: String, listener: ((String) -> Unit)?) {
+    override fun downloadVideo(url: String, listener: ((ByteArray) -> Unit)?) {
+
+
         val urlConnection = URL(url).openConnection() as HttpURLConnection
         urlConnection.requestMethod = "GET"
         urlConnection.connect()
@@ -12,7 +14,6 @@ class ServerTasks : TikTokApi {
         val byteFile = ByteArray(inputStream.available())
         inputStream.read(byteFile)
 
-        val fileName = ""
-        listener?.invoke(fileName)
+        listener?.invoke(byteFile)
     }
 }

@@ -6,8 +6,18 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.yatochk.tiktokdownloader.R
+import com.yatochk.tiktokdownloader.model.db.StorageApi
+import com.yatochk.tiktokdownloader.model.download.TikTokApi
 
-class ModelImpl(private val context: Context) : Model {
+class ModelImpl(
+    private val context: Context,
+    private val tikTokApi: TikTokApi,
+    private val storageApi: StorageApi
+) : Model {
+
+    override fun getVideoFiles() =
+        storageApi.getFiles()
+
     override fun rate() {
         val appPackageName = context.packageName
         try {
@@ -35,7 +45,9 @@ class ModelImpl(private val context: Context) : Model {
     }
 
     override fun downloadVideo(url: String) {
-
+        tikTokApi.downloadVideo(url) {
+            storageApi.writeFile(it)
+        }
     }
 
     override fun getCopyUrl(): String? {

@@ -48,7 +48,6 @@ class DownloadFragment : Fragment(), DownloaderView {
         edit_url.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 presenter.urlChange(s.toString())
-
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
