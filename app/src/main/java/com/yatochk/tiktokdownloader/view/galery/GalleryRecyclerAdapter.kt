@@ -2,6 +2,7 @@ package com.yatochk.tiktokdownloader.view.galery
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,13 +31,14 @@ class GalleryRecyclerAdapter :
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     fun bind(file: File) {
         with(itemView) {
+            Log.d("MYLOG", Uri.fromFile(file).toString())
             Glide.with(context)
                 .load(file)
                 .into(image_preview)
 
             button_start_video.setOnClickListener {
                 val intent = Intent(context, VideoActivity::class.java)
-                intent.putExtra(URI_KEY, Uri.fromFile(file))
+                intent.putExtra(URI_KEY, file.absolutePath)
                 context.startActivity(intent)
             }
         }

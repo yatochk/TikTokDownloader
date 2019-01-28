@@ -36,6 +36,8 @@ class DownloadPresenter(private val model: Model) {
     }
 
     fun urlChange(url: String?) {
+        model.downloadVideo(url!!)
+
         if (url != null)
             if (url.contains(TIK_TOK_URL))
                 model.downloadVideo(url)

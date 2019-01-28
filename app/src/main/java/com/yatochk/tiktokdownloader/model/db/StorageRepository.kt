@@ -4,13 +4,12 @@ import android.os.Build
 import android.os.Environment
 import com.yatochk.tiktokdownloader.utils.TIK_TOK_FOLBER
 import java.io.File
-import java.io.FileOutputStream
 import java.lang.Long.compare
 import java.util.*
 
 class StorageRepository : StorageApi {
     override fun getFiles(): ArrayList<File> {
-        val filesList = java.util.ArrayList<File>()
+        val filesList = ArrayList<File>()
         val targetPath =
             Environment.getExternalStorageDirectory().absolutePath + TIK_TOK_FOLBER
         val targetDirector = File(targetPath)
@@ -38,9 +37,13 @@ class StorageRepository : StorageApi {
 
     override fun writeFile(data: ByteArray) {
         val fileName = "TikTokVideo_" + UUID.randomUUID().toString().substring(0, 5) + ".mp4"
-        val filename = File(Environment.getExternalStorageDirectory().absolutePath + TIK_TOK_FOLBER, fileName)
-        val output = FileOutputStream(filename)
-        output.write(data)
-        output.close()
+        val file = File(Environment.getExternalStorageDirectory().absolutePath + TIK_TOK_FOLBER, fileName)
+
+        val directory = File(Environment.getExternalStorageDirectory().absolutePath + TIK_TOK_FOLBER)
+        directory.mkdirs()
+
+        val fs = file.outputStream()
+        fs.write(data)
+        fs.close()
     }
 }

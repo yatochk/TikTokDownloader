@@ -1,5 +1,6 @@
 package com.yatochk.tiktokdownloader.view.main
 
+import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -8,11 +9,14 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayout
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.dagger.App
+import com.yatochk.tiktokdownloader.utils.USER_PERISSION_GRANTED
 import com.yatochk.tiktokdownloader.view.download.DownloadFragment
 import com.yatochk.tiktokdownloader.view.galery.GalleryFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -93,6 +97,32 @@ class MainActivity : AppCompatActivity(), MainView {
                     }
             )
             .build()
+
+        checkPermission()
+    }
+
+    private fun checkPermission() {
+        val permission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (permission != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ),
+                USER_PERISSION_GRANTED
+            )
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            USER_PERISSION_GRANTED -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                }
+                return
+            }
+        }
     }
 
     override fun onStart() {
@@ -162,3 +192,4 @@ class MainActivity : AppCompatActivity(), MainView {
             .show()
     }
 }
+
