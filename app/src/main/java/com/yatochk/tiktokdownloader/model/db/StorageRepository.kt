@@ -35,7 +35,7 @@ class StorageRepository : StorageApi {
         return filesList
     }
 
-    override fun writeFile(data: ByteArray) {
+    override fun writeFile(data: ByteArray, listener: ((String) -> Unit)?) {
         val fileName = "TikTokVideo_" + UUID.randomUUID().toString().substring(0, 5) + ".mp4"
         val file = File(Environment.getExternalStorageDirectory().absolutePath + TIK_TOK_FOLBER, fileName)
 
@@ -45,5 +45,7 @@ class StorageRepository : StorageApi {
         val fs = file.outputStream()
         fs.write(data)
         fs.close()
+
+        listener?.invoke(file.absolutePath)
     }
 }

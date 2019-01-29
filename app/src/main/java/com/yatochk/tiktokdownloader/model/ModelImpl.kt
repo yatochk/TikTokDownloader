@@ -44,9 +44,11 @@ class ModelImpl(
         context.startActivity(sendIntent)
     }
 
-    override fun downloadVideo(url: String) {
+    override fun downloadVideo(url: String, listener: ((String) -> Unit)?) {
         tikTokApi.downloadVideo(url) {
-            storageApi.writeFile(it)
+            storageApi.writeFile(it) { videoPath ->
+                listener?.invoke(videoPath)
+            }
         }
     }
 

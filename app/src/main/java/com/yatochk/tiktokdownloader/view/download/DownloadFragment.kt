@@ -8,13 +8,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.utils.TIK_TOK_PACKAGE
 import kotlinx.android.synthetic.main.fragment_download.*
 
+
 class DownloadFragment : Fragment(), DownloaderView {
+    override var url: String
+        get() = edit_url.editableText.toString()
+        set(value) {
+            edit_url.setText(value)
+        }
+
+    override fun showLoad() {
+        download_instruction.visibility = View.INVISIBLE
+        progress_download.visibility = View.VISIBLE
+    }
+
+    override fun showVideo(path: String) {
+        progress_download.visibility = View.INVISIBLE
+    }
 
     override fun showToast(msg: String) =
         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
@@ -26,6 +42,9 @@ class DownloadFragment : Fragment(), DownloaderView {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val adRequest = AdRequest.Builder().build()
+        ads_download.loadAd(adRequest)
+
         button_tiktok.setOnClickListener {
             val intent = activity?.packageManager?.getLaunchIntentForPackage(TIK_TOK_PACKAGE)
             if (intent != null)
@@ -40,7 +59,6 @@ class DownloadFragment : Fragment(), DownloaderView {
         button_paste.setOnClickListener {
             presenter.clickPaste()
         }
-
         button_clear.setOnClickListener {
             presenter.clickClear()
         }
@@ -58,6 +76,8 @@ class DownloadFragment : Fragment(), DownloaderView {
                 //do nothing
             }
         })
+
+
     }
 
     override fun onStart() {
@@ -69,7 +89,4 @@ class DownloadFragment : Fragment(), DownloaderView {
         super.onStop()
         presenter.unbindView()
     }
-
-    override fun setUrl(url: String) =
-        edit_url.setText(url)
 }

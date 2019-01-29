@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.tabs.TabLayout
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
@@ -38,6 +39,8 @@ class MainActivity : AppCompatActivity(), MainView {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        MobileAds.initialize(this, getString(R.string.ad_mob_app_id))
 
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.tab_download)))
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.tab_history)))

@@ -63,5 +63,11 @@
     //Feedback
     <string name="have_problem">Have a problem? Please share it with us and we will do our best to solve it!</string>
     <string name="developer_email" translatable="false">application.development.studio@gmail.com</string>
+    <string name="instruction_title">Instruction</string>
 
+    <string name="facebook_app_id">Facebook App ID</string>
+    <string name="ad_mob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="download_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="video_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="gallery_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

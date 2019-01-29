@@ -10,7 +10,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/recycler_video"
+            app:layout_constraintBottom_toBottomOf="@+id/adView" android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"/>
+    <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/adView"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/gallery_banner_id"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/recycler_video"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

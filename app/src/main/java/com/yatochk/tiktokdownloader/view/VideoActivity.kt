@@ -2,6 +2,7 @@ package com.yatochk.tiktokdownloader.view
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.utils.URI_KEY
@@ -17,6 +18,7 @@ class VideoActivity : AppCompatActivity() {
         val uri = intent.getStringExtra(URI_KEY)
         Log.d("VideoActivityUri", uri.toString())
         video_view.setVideoPath(uri)
+        video_view.setMediaController(MediaController(this))
         video_view.start()
     }
 }

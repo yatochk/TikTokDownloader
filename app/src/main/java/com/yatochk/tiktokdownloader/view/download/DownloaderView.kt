@@ -1,6 +1,8 @@
 package com.yatochk.tiktokdownloader.view.download
 
 interface DownloaderView {
-    fun setUrl(url: String)
+    var url: String
     fun showToast(msg: String)
+    fun showLoad()
+    fun showVideo(path: String)
 }

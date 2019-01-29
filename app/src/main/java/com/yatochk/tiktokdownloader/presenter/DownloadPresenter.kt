@@ -15,6 +15,9 @@ class DownloadPresenter(private val model: Model) {
 
     fun bindView(v: DownloaderView) {
         view = v
+        val url = model.getCopyUrl()
+        if (url != null && url != view?.url)
+            view?.url = url
     }
 
     fun unbindView() {
@@ -22,9 +25,9 @@ class DownloadPresenter(private val model: Model) {
     }
 
     fun clickPaste() {
-        val text = model.getCopyUrl()
-        if (text != null)
-            view?.setUrl(text)
+        val url = model.getCopyUrl()
+        if (url != null)
+            view?.url = url
     }
 
     fun clickSnackAction() {
@@ -32,16 +35,17 @@ class DownloadPresenter(private val model: Model) {
     }
 
     fun clickClear() {
-        view?.setUrl("")
+        view?.url = ""
     }
 
     fun urlChange(url: String?) {
-        model.downloadVideo(url!!)
-
         if (url != null)
-            if (url.contains(TIK_TOK_URL))
-                model.downloadVideo(url)
-            else if (url.length > TIK_TOK_URL.length)
+            if (url.contains(TIK_TOK_URL)) {
+                view?.showLoad()
+                model.downloadVideo(url) {
+                    view?.showVideo(it)
+                }
+            } else if (url.length > TIK_TOK_URL.length)
                 view?.showToast(App.component.context.getString(R.string.not_tik_tok_url))
     }
 }
