@@ -43,6 +43,7 @@ class DownloadPresenter(private val model: Model) {
             if (url.contains(TIK_TOK_URL)) {
                 view?.showLoad()
                 model.downloadVideo(url) {
+                    App.isDownloaded = true
                     view?.showVideo(it)
                 }
             } else if (url.length > TIK_TOK_URL.length)

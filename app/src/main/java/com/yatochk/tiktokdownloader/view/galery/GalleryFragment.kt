@@ -26,7 +26,25 @@ class GalleryFragment : Fragment(), Gallery {
         recycler_video.adapter = adapter
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden)
+            presenter.unbindView()
+        else
+            presenter.bindView(this)
+    }
+
     override fun updateVideos(files: ArrayList<File>) {
         adapter.submitList(files)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.unbindView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.bindView(this)
     }
 }

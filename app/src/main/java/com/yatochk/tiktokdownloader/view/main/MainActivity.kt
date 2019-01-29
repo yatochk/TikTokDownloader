@@ -11,6 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.tabs.TabLayout
 import com.mikepenz.materialdrawer.DrawerBuilder
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity(), MainView {
         )
     )
 
+    private lateinit var mInterstitialAd: InterstitialAd
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,6 +44,9 @@ class MainActivity : AppCompatActivity(), MainView {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         MobileAds.initialize(this, getString(R.string.ad_mob_app_id))
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = getString(R.string.interstitial_id)
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
 
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.tab_download)))
         tab_layout.addTab(tab_layout.newTab().setText(getString(R.string.tab_history)))
@@ -54,6 +60,10 @@ class MainActivity : AppCompatActivity(), MainView {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
+                if (tab.position == 1 && App.isDownloaded && mInterstitialAd.isLoaded) {
+                    mInterstitialAd.show()
+                    App.isDownloaded = false
+                }
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
@@ -139,9 +149,13 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun onBackPressed() {
-        if (main_pager.currentItem == 1)
+        if (main_pager.currentItem == 1) {
             main_pager.currentItem = 0
-        else
+            if (App.isDownloaded && mInterstitialAd.isLoaded) {
+                mInterstitialAd.show()
+                App.isDownloaded = false
+            }
+        } else
             super.onBackPressed()
     }
 

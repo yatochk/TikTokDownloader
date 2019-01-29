@@ -15,4 +15,8 @@ class GalleryPresenter(private val model: Model) {
     fun unbindView() {
         view = null
     }
+
+    fun update() {
+        view?.updateVideos(model.getVideoFiles())
+    }
 }

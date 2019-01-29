@@ -9,6 +9,12 @@ import com.yatochk.tiktokdownloader.dagger.module.PresenterModule
 
 class App : Application() {
     companion object {
+        var isDownloaded = false
+            set(value) {
+                if (value)
+                    component.galleryPresenter.update()
+                field = value
+            }
         lateinit var component: AppComponent
             private set
     }
