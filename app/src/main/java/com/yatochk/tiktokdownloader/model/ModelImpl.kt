@@ -29,6 +29,10 @@ class ModelImpl(
     private val storageApi: StorageApi
 ) : Model {
 
+    override fun deleteVideo(path: String, listener: (() -> Unit)?) {
+        storageApi.deleteFile(path, listener)
+    }
+
     companion object {
         const val SUCCESS_DOWNLOAD = 200
         const val ERROR_DOWNLOAD = 404

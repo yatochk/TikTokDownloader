@@ -18,7 +18,7 @@
 
     //Toasts
     <string name="not_tik_tok_url">Its not TikTok url. Please retry</string>
-
+    <string name="video_deleted">Video was deleted</string>
     <string name="share_text">Check out TikTok downloader app:</string>
 
     //Privacy
@@ -65,12 +65,6 @@
     <string name="developer_email" translatable="false">application.development.studio@gmail.com</string>
     <string name="instruction_title">Instruction</string>
 
-    <string name="facebook_app_id">Facebook App ID</string>
-    <string name="ad_mob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="download_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="video_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="gallery_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="interstitial_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
     <string name="download_button">Download</string>
 
     <string name="rating_title">Rate the app</string>
@@ -83,4 +77,13 @@
     <string name="feed_hint">Suggest</string>
 
     <string name="error_downloading">Error on download</string>
+
+    //ADS
+    <string name="facebook_app_id">Facebook App ID</string>
+    <string name="ad_mob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="download_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="video_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="gallery_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="interstitial_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+
 </resources>
