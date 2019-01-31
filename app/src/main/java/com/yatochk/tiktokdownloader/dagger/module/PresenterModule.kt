@@ -4,6 +4,7 @@ import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.presenter.DownloadPresenter
 import com.yatochk.tiktokdownloader.presenter.GalleryPresenter
 import com.yatochk.tiktokdownloader.presenter.MainPresenter
+import com.yatochk.tiktokdownloader.presenter.PreviewPresenter
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -22,4 +23,8 @@ class PresenterModule {
     @Provides
     @Singleton
     fun provideDownloadPresenter(): DownloadPresenter = DownloadPresenter(App.component.model)
+
+    @Provides
+    @Singleton
+    fun providePreviewPresenter(): PreviewPresenter = PreviewPresenter(App.component.model)
 }

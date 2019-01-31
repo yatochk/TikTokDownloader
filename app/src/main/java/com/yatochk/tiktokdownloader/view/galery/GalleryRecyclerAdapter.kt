@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.utils.URI_KEY
-import com.yatochk.tiktokdownloader.view.VideoActivity
+import com.yatochk.tiktokdownloader.view.preview.PreviewActivity
 import kotlinx.android.synthetic.main.video_item.view.*
 import java.io.File
 
@@ -37,7 +37,7 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 .into(image_preview)
 
             image_preview.setOnClickListener {
-                val intent = Intent(context, VideoActivity::class.java)
+                val intent = Intent(context, PreviewActivity::class.java)
                 intent.putExtra(URI_KEY, file.absolutePath)
                 context.startActivity(intent)
             }

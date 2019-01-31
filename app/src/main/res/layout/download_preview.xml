@@ -36,6 +36,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/button_download"
             app:layout_constraintEnd_toEndOf="@+id/button_download"
             app:layout_constraintStart_toStartOf="@+id/button_download"
+            android:indeterminateDrawable="@drawable/progress_circle"
             android:elevation="4dp"
             android:visibility="invisible"
             tools:targetApi="lollipop"/>

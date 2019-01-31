@@ -10,6 +10,7 @@ import com.yatochk.tiktokdownloader.model.download.TikTokApi
 import com.yatochk.tiktokdownloader.presenter.DownloadPresenter
 import com.yatochk.tiktokdownloader.presenter.GalleryPresenter
 import com.yatochk.tiktokdownloader.presenter.MainPresenter
+import com.yatochk.tiktokdownloader.presenter.PreviewPresenter
 import dagger.Component
 import javax.inject.Singleton
 
@@ -19,6 +20,7 @@ interface AppComponent {
     val mainPresenter: MainPresenter
     val galleryPresenter: GalleryPresenter
     val downloadPresenter: DownloadPresenter
+    val previewPresenter: PreviewPresenter
     val model: Model
     val context: Context
     val tikTokApi: TikTokApi

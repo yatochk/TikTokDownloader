@@ -15,7 +15,7 @@ import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.utils.TIK_TOK_PACKAGE
 import com.yatochk.tiktokdownloader.utils.URI_KEY
-import com.yatochk.tiktokdownloader.view.VideoActivity
+import com.yatochk.tiktokdownloader.view.preview.PreviewActivity
 import kotlinx.android.synthetic.main.download_preview.*
 import kotlinx.android.synthetic.main.fragment_download.*
 
@@ -113,7 +113,7 @@ class DownloadFragment : Fragment(), DownloaderView {
     }
 
     override fun openVideo(videoPath: String) {
-        val intent = Intent(context, VideoActivity::class.java)
+        val intent = Intent(App.component.context, PreviewActivity::class.java)
         intent.putExtra(URI_KEY, videoPath)
         startActivity(intent)
     }
