@@ -9,6 +9,7 @@ import com.yatochk.tiktokdownloader.dagger.module.PresenterModule
 
 class App : Application() {
     companion object {
+        var adCount = 0
         var isDownloaded = false
             set(value) {
                 if (value)

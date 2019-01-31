@@ -36,7 +36,7 @@ class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 .load(file)
                 .into(image_preview)
 
-            button_start_video.setOnClickListener {
+            image_preview.setOnClickListener {
                 val intent = Intent(context, VideoActivity::class.java)
                 intent.putExtra(URI_KEY, file.absolutePath)
                 context.startActivity(intent)

@@ -1,8 +1,10 @@
 package com.yatochk.tiktokdownloader.presenter
 
+import android.widget.ImageView
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.model.Model
+import com.yatochk.tiktokdownloader.model.ModelImpl
 import com.yatochk.tiktokdownloader.utils.TIK_TOK_PACKAGE
 import com.yatochk.tiktokdownloader.view.download.DownloaderView
 
@@ -38,13 +40,33 @@ class DownloadPresenter(private val model: Model) {
         view?.url = ""
     }
 
-    fun urlChange(url: String?) {
+    private var lastVideoPath = ""
+    fun clickDownload(url: String?) {
+        if (url != null) {
+            view?.showVideoLoad()
+            model.downloadVideo(url) {
+                App.isDownloaded = true
+                lastVideoPath = it
+                view?.hideVideoLoad()
+            }
+        }
+    }
+
+    fun clickPreview() {
+        view?.openVideo(lastVideoPath)
+    }
+
+    fun urlChange(url: String?, imageView: ImageView) {
         if (url != null)
             if (url.contains(TIK_TOK_URL)) {
-                view?.showLoad()
-                model.downloadVideo(url) {
-                    App.isDownloaded = true
-                    view?.showVideo(it)
+                view?.showPreviewLoad()
+                model.downloadPreview(url, imageView) {
+                    if (it == ModelImpl.SUCCESS_DOWNLOAD)
+                        view?.showPreview()
+                    else {
+                        view?.showToast(App.component.context.getString(R.string.error_downloading))
+                        view?.showInstruction()
+                    }
                 }
             } else if (url.length > TIK_TOK_URL.length)
                 view?.showToast(App.component.context.getString(R.string.not_tik_tok_url))

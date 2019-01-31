@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#4098F7</color>
 
+    <color name="black">#000000</color>
+
     <color name="bg_main">#616161</color>
     <color name="white">#FFFFFF</color>
     <color name="unselectedColor">#9E9E9E</color>

@@ -1,5 +1,6 @@
 package com.yatochk.tiktokdownloader.view.download
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,23 +14,39 @@ import com.google.android.material.snackbar.Snackbar
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.utils.TIK_TOK_PACKAGE
+import com.yatochk.tiktokdownloader.utils.URI_KEY
+import com.yatochk.tiktokdownloader.view.VideoActivity
+import kotlinx.android.synthetic.main.download_preview.*
 import kotlinx.android.synthetic.main.fragment_download.*
 
 
 class DownloadFragment : Fragment(), DownloaderView {
+    override fun hideVideoLoad() {
+        progress_video_download.visibility = View.INVISIBLE
+        button_download.text = getString(R.string.download_button)
+    }
+
+    override fun showVideoLoad() {
+        button_download.text = ""
+        progress_video_download.visibility = View.VISIBLE
+    }
+
     override var url: String
         get() = edit_url.editableText.toString()
         set(value) {
             edit_url.setText(value)
         }
 
-    override fun showLoad() {
+    override fun showPreviewLoad() {
         download_instruction.visibility = View.INVISIBLE
-        progress_download.visibility = View.VISIBLE
+        download_preview.visibility = View.INVISIBLE
+        progress_preview_download.visibility = View.VISIBLE
     }
 
-    override fun showVideo(path: String) {
-        progress_download.visibility = View.INVISIBLE
+    override fun showPreview() {
+        download_instruction.visibility = View.INVISIBLE
+        progress_preview_download.visibility = View.INVISIBLE
+        download_preview.visibility = View.VISIBLE
     }
 
     override fun showToast(msg: String) =
@@ -65,7 +82,7 @@ class DownloadFragment : Fragment(), DownloaderView {
 
         edit_url.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                presenter.urlChange(s.toString())
+                presenter.urlChange(s.toString(), image_download_preview)
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -77,7 +94,12 @@ class DownloadFragment : Fragment(), DownloaderView {
             }
         })
 
-
+        image_download_preview.setOnClickListener {
+            presenter.clickPreview()
+        }
+        button_download.setOnClickListener {
+            presenter.clickDownload(edit_url.text.toString())
+        }
     }
 
     override fun onStart() {
@@ -88,5 +110,17 @@ class DownloadFragment : Fragment(), DownloaderView {
     override fun onStop() {
         super.onStop()
         presenter.unbindView()
+    }
+
+    override fun openVideo(videoPath: String) {
+        val intent = Intent(context, VideoActivity::class.java)
+        intent.putExtra(URI_KEY, videoPath)
+        startActivity(intent)
+    }
+
+    override fun showInstruction() {
+        progress_preview_download.visibility = View.INVISIBLE
+        download_preview.visibility = View.INVISIBLE
+        download_instruction.visibility = View.VISIBLE
     }
 }

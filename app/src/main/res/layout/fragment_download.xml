@@ -106,11 +106,14 @@
                     style="?android:attr/progressBarStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/progress_download"
+                    android:id="@+id/progress_preview_download"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:visibility="invisible"/>
+            <include android:id="@+id/download_preview"
+                     android:visibility="invisible"
+                     layout="@layout/download_preview"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

@@ -1,6 +1,7 @@
 package com.yatochk.tiktokdownloader.view.main
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -19,13 +20,15 @@ import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.dagger.App
-import com.yatochk.tiktokdownloader.utils.USER_PERISSION_GRANTED
+import com.yatochk.tiktokdownloader.utils.*
+import com.yatochk.tiktokdownloader.view.RatingDialog
 import com.yatochk.tiktokdownloader.view.download.DownloadFragment
 import com.yatochk.tiktokdownloader.view.galery.GalleryFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity(), MainView {
+
     private val presenter = App.component.mainPresenter
 
     private val adapter = MainPagerAdapter(
@@ -114,6 +117,20 @@ class MainActivity : AppCompatActivity(), MainView {
         checkPermission()
     }
 
+    override fun showRate() {
+        App.adCount++
+
+        val adDelayCount = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getInt(LATER_COUNT_PREF, RATE_COUNT)
+        val isNeverRate = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getInt(NEVER_PREF, 0) == 1
+
+        if (App.adCount > adDelayCount && !isNeverRate) {
+            RatingDialog().show(supportFragmentManager, "rating")
+            App.adCount = 0
+        } else if (mInterstitialAd.isLoaded) run { mInterstitialAd.show() }
+    }
+
     private fun checkPermission() {
         val permission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (permission != PackageManager.PERMISSION_GRANTED)
@@ -149,14 +166,7 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun onBackPressed() {
-        if (main_pager.currentItem == 1) {
-            main_pager.currentItem = 0
-            if (App.isDownloaded && mInterstitialAd.isLoaded) {
-                mInterstitialAd.show()
-                App.isDownloaded = false
-            }
-        } else
-            super.onBackPressed()
+        showRate()
     }
 
     override fun sendFeedback() {
@@ -188,14 +198,6 @@ class MainActivity : AppCompatActivity(), MainView {
                     "\n"
         )
         startActivity(Intent.createChooser(intent, "Send Email"))
-    }
-
-    private fun getDeviceName(): String {
-        val manufacturer = Build.MANUFACTURER
-        val model = Build.MODEL
-
-        return if (model.startsWith(manufacturer)) model
-        else "$manufacturer $model"
     }
 
     override fun showPrivacy() {
