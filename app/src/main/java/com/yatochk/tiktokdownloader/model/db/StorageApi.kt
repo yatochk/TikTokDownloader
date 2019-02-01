@@ -6,5 +6,5 @@ import java.util.*
 interface StorageApi {
     fun getFiles(): ArrayList<File>
     fun writeFile(data: ByteArray, listener: ((String) -> Unit)?)
-    fun deleteFile(path: String, listener: (() -> Unit)?)
+    fun deleteFile(path: String, listener: ((Boolean) -> Unit)?)
 }

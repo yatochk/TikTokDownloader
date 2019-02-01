@@ -79,7 +79,7 @@
     <string name="error_downloading">Error on download</string>
 
     //ADS
-    <string name="facebook_app_id">Facebook App ID</string>
+    <string name="facebook_app_id">2051460464907599</string>
     <string name="ad_mob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
     <string name="download_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="video_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>

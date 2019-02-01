@@ -53,7 +53,8 @@ class DownloadPresenter(private val model: Model) {
     }
 
     fun clickPreview() {
-        view?.openVideo(lastVideoPath)
+        if (lastVideoPath != "")
+            view?.openVideo(lastVideoPath)
     }
 
     fun urlChange(url: String?, imageView: ImageView) {

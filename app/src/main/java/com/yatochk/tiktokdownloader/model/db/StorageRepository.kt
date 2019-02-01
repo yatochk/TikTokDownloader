@@ -8,13 +8,10 @@ import java.lang.Long.compare
 import java.util.*
 
 class StorageRepository : StorageApi {
-    override fun deleteFile(path: String, listener: (() -> Unit)?) {
-        val targetPath =
-            Environment.getExternalStorageDirectory().absolutePath + TIK_TOK_FOLBER
-        val file = File(targetPath, path)
-        if (file.exists())
-            file.delete()
-        listener?.invoke()
+    override fun deleteFile(path: String, listener: ((Boolean) -> Unit)?) {
+        val file = File(path)
+        val isDeleted = if (file.exists()) file.delete() else false
+        listener?.invoke(isDeleted)
     }
 
     override fun getFiles(): ArrayList<File> {

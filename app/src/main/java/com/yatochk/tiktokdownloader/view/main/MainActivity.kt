@@ -128,7 +128,9 @@ class MainActivity : AppCompatActivity(), MainView {
         if (App.adCount > adDelayCount && !isNeverRate) {
             RatingDialog().show(supportFragmentManager, "rating")
             App.adCount = 0
-        } else if (mInterstitialAd.isLoaded) run { mInterstitialAd.show() }
+        } else if (mInterstitialAd.isLoaded) {
+            mInterstitialAd.show()
+        }
     }
 
     private fun checkPermission() {

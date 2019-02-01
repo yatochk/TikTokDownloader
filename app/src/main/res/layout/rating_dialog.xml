@@ -5,7 +5,7 @@
                                                    android:layout_height="match_parent">
 
     <RatingBar
-            android:id="@+id/ratingBar"
+            android:id="@+id/rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -30,37 +30,37 @@
             android:textColor="@android:color/white"
             android:textSize="26sp"
             android:padding="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/ratingBar"
+            app:layout_constraintBottom_toTopOf="@+id/rating_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-    <LinearLayout
-            android:layout_width="match_parent"
+    <Button
+            android:id="@+id/rating_never_btn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/ratingBar">
-
-        <TextView
-                android:id="@+id/never_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/negative_rate"
-                android:textAlignment="center"
-                android:textSize="18sp"/>
-
-        <TextView
-                android:id="@+id/later_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/positive_rate"
-                android:textAlignment="center"
-                android:textColor="@color/colorAccent"
-                android:textSize="22sp"/>
-
-    </LinearLayout>
+            android:layout_weight="1"
+            android:text="@string/negative_rate"
+            android:textColor="@color/material_drawer_secondary_text"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            style="@style/Widget.AppCompat.Button.Borderless" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/rating_later_btn"
+            app:layout_constraintBottom_toBottomOf="@+id/rating_later_btn"/>
+    <Button
+            android:id="@+id/rating_later_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/positive_rate"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent"
+            android:textAllCaps="false"
+            android:textSize="22sp"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            app:layout_constraintStart_toEndOf="@+id/rating_never_btn" app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@+id/rating_bar"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
