@@ -19,10 +19,12 @@ import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.model.db.StorageApi
 import com.yatochk.tiktokdownloader.model.download.TikTokApi
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
+
 
 class ModelImpl(
     private val context: Context,
@@ -110,6 +112,23 @@ class ModelImpl(
         )
         sendIntent.type = "text/plain"
         context.startActivity(sendIntent)
+    }
+
+    override fun shareVideo(path: String) {
+        val intentShareFile = Intent(Intent.ACTION_SEND)
+        val fileWithinMyDir = File(path)
+
+        if (fileWithinMyDir.exists()) {
+            intentShareFile.type = "video/*"
+            intentShareFile.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://$path"))
+
+            intentShareFile.putExtra(
+                Intent.EXTRA_SUBJECT,
+                context.getString(R.string.share_video)
+            )
+            intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File...")
+            context.startActivity(Intent.createChooser(intentShareFile, "Share File"))
+        }
     }
 
     override fun downloadVideo(url: String, listener: ((String) -> Unit)?) {

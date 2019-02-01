@@ -71,6 +71,8 @@
     <string name="positive_rate">Maybe later</string>
     <string name="negative_rate">Never</string>
 
+    <string name="share_video">Sharing</string>
+
     <string name="feed_title">Feedback</string>
     <string name="send_btn">Submit</string>
     <string name="close_btn">Close</string>

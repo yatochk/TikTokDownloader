@@ -1,7 +1,10 @@
 package com.yatochk.tiktokdownloader.model.db
 
+import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Environment
+import android.util.Log
+import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.utils.TIK_TOK_FOLBER
 import java.io.File
 import java.lang.Long.compare
@@ -49,8 +52,19 @@ class StorageRepository : StorageApi {
         directory.mkdirs()
 
         val fs = file.outputStream()
-        fs.write(data)
+        fs.write(data, 0, data.size)
         fs.close()
+
+        MediaScannerConnection.scanFile(
+            App.component.context,
+            arrayOf(
+                Environment.getExternalStorageDirectory().absolutePath +
+                        TIK_TOK_FOLBER + fileName
+            ), null
+        ) { newPath, newUri ->
+            Log.i("ExternalStorage", "Scanned $newPath:")
+            Log.i("ExternalStorage", "-> uri=$newUri")
+        }
 
         listener?.invoke(file.absolutePath)
     }

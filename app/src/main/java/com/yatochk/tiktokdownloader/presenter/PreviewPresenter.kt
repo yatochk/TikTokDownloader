@@ -18,7 +18,7 @@ class PreviewPresenter(private val model: Model) {
     }
 
     fun clickShare(path: String) {
-
+        model.shareVideo(path)
     }
 
     fun clickDelete(path: String) {
