@@ -63,10 +63,6 @@ class MainActivity : AppCompatActivity(), MainView {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
-                if (tab.position == 1 && App.isDownloaded && mInterstitialAd.isLoaded) {
-                    mInterstitialAd.show()
-                    App.isDownloaded = false
-                }
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
@@ -117,8 +113,14 @@ class MainActivity : AppCompatActivity(), MainView {
         checkPermission()
     }
 
+    override fun goToHistory() =
+        main_pager.setCurrentItem(1, true)
+
     override fun showRate() {
-        App.adCount++
+        if (App.isDownloaded) {
+            App.adCount++
+            App.isDownloaded = false
+        }
 
         val adDelayCount = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .getInt(LATER_COUNT_PREF, RATE_COUNT)
@@ -150,8 +152,8 @@ class MainActivity : AppCompatActivity(), MainView {
         when (requestCode) {
             USER_PERISSION_GRANTED -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                } else {
                 }
+
                 return
             }
         }
@@ -168,6 +170,8 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun onBackPressed() {
+        if (main_pager.currentItem == 1)
+            main_pager.setCurrentItem(0, true)
         showRate()
     }
 

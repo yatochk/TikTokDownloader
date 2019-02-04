@@ -12,8 +12,10 @@ class App : Application() {
         var adCount = 0
         var isDownloaded = false
             set(value) {
-                if (value)
+                if (value) {
                     component.galleryPresenter.update()
+                    component.mainPresenter.downloadComplete()
+                }
                 field = value
             }
         lateinit var component: AppComponent

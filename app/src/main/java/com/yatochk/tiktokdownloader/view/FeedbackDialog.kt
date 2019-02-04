@@ -12,7 +12,7 @@ import android.util.DisplayMetrics
 import androidx.fragment.app.DialogFragment
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.utils.getDeviceName
-import kotlinx.android.synthetic.main.feedback_dialog.*
+import kotlinx.android.synthetic.main.feedback_dialog.view.*
 
 
 class FeedbackDialog : DialogFragment() {
@@ -20,7 +20,7 @@ class FeedbackDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity)
         val layout = activity!!.layoutInflater.inflate(R.layout.feedback_dialog, null)
-        send_btn.setOnClickListener {
+        layout.send_btn.setOnClickListener {
             val displayMetrics = DisplayMetrics()
             activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
             val height = displayMetrics.heightPixels
@@ -47,12 +47,12 @@ class FeedbackDialog : DialogFragment() {
                         "\n" + " System Version:" + Build.VERSION.SDK_INT +
                         "\n" + " Display Height  :" + height + "px" +
                         "\n" + " Display Width  :" + width + "px" +
-                        "\n\n" + feed_text.text.toString() +
+                        "\n\n" + layout.feed_text.text.toString() +
                         "\n"
             )
             startActivity(Intent.createChooser(i, "Send Email"))
         }
-        close_btn.setOnClickListener { dialog?.cancel() }
+        layout.close_btn.setOnClickListener { dialog?.cancel() }
         builder.setView(layout)
         return builder.create()
     }

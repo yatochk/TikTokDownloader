@@ -4,4 +4,5 @@ interface MainView {
     fun showPrivacy()
     fun sendFeedback()
     fun showRate()
+    fun goToHistory()
 }

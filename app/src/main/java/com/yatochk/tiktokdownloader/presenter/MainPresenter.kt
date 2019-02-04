@@ -30,4 +30,7 @@ class MainPresenter(private val model: Model) {
 
     fun clickPrivacy() =
         view?.showPrivacy()
+
+    fun downloadComplete() =
+        view?.goToHistory()
 }

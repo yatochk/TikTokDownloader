@@ -46,24 +46,28 @@ class StorageRepository : StorageApi {
 
     override fun writeFile(data: ByteArray, listener: ((String) -> Unit)?) {
         val fileName = "TikTokVideo_" + UUID.randomUUID().toString().substring(0, 5) + ".mp4"
-        val file = File(Environment.getExternalStorageDirectory().absolutePath + TIK_TOK_FOLBER, fileName)
+        val file: File
+        try {
+            file = File(Environment.getExternalStorageDirectory().absolutePath + TIK_TOK_FOLBER, fileName)
+            val directory = File(Environment.getExternalStorageDirectory().absolutePath + TIK_TOK_FOLBER)
+            directory.mkdirs()
 
-        val directory = File(Environment.getExternalStorageDirectory().absolutePath + TIK_TOK_FOLBER)
-        directory.mkdirs()
+            val fs = file.outputStream()
+            fs.write(data, 0, data.size)
+            fs.close()
 
-        val fs = file.outputStream()
-        fs.write(data, 0, data.size)
-        fs.close()
-
-        MediaScannerConnection.scanFile(
-            App.component.context,
-            arrayOf(
-                Environment.getExternalStorageDirectory().absolutePath +
-                        TIK_TOK_FOLBER + fileName
-            ), null
-        ) { newPath, newUri ->
-            Log.i("ExternalStorage", "Scanned $newPath:")
-            Log.i("ExternalStorage", "-> uri=$newUri")
+            MediaScannerConnection.scanFile(
+                App.component.context,
+                arrayOf(
+                    Environment.getExternalStorageDirectory().absolutePath +
+                            TIK_TOK_FOLBER + fileName
+                ), null
+            ) { newPath, newUri ->
+                Log.i("ExternalStorage", "Scanned $newPath:")
+                Log.i("ExternalStorage", "-> uri=$newUri")
+            }
+        } catch (e: Exception) {
+            return
         }
 
         listener?.invoke(file.absolutePath)
