@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Handler
+import android.util.AndroidRuntimeException
 import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -115,36 +116,49 @@ class ModelImpl(
     }
 
     override fun shareVideo(path: String) {
-        val intentShareFile = Intent(Intent.ACTION_SEND)
-        val fileWithinMyDir = File(path)
+        try {
+            val intentShareFile = Intent(Intent.ACTION_SEND)
+            val fileWithinMyDir = File(path)
 
-        if (fileWithinMyDir.exists()) {
-            intentShareFile.type = "video/*"
-            intentShareFile.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://$path"))
+            if (fileWithinMyDir.exists()) {
+                intentShareFile.type = "video/*"
+                intentShareFile.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://$path"))
 
-            intentShareFile.putExtra(
-                Intent.EXTRA_SUBJECT,
-                context.getString(R.string.share_video)
-            )
-            intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File...")
-            context.startActivity(Intent.createChooser(intentShareFile, "Share File"))
+                intentShareFile.putExtra(
+                    Intent.EXTRA_SUBJECT,
+                    context.getString(R.string.share_video)
+                )
+                intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File...")
+                context.startActivity(Intent.createChooser(intentShareFile, "Share File"))
+            }
+        } catch (e: AndroidRuntimeException) {
+            //do nothing
         }
     }
 
-    override fun downloadVideo(url: String, listener: ((String) -> Unit)?) {
-        tikTokApi.downloadVideo(url) {
-            storageApi.writeFile(it) { videoPath ->
-                listener?.invoke(videoPath)
+    override fun downloadVideo(url: String, listener: ((String, Int) -> Unit)?) {
+        try {
+            tikTokApi.downloadVideo(url) {
+                storageApi.writeFile(it) { videoPath ->
+                    listener?.invoke(videoPath, SUCCESS_DOWNLOAD)
+                }
             }
+        } catch (e: Exception) {
+            listener?.invoke("", ERROR_DOWNLOAD)
         }
     }
 
     override fun getCopyUrl(): String? {
-        val service = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        return if (service.hasPrimaryClip())
-            service.primaryClip?.getItemAt(0)?.text.toString()
-        else
-            null
+        try {
+            val service = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            return if (service.hasPrimaryClip())
+                service.primaryClip?.getItemAt(0)?.text.toString()
+            else
+                null
+        } catch (e: Exception) {
+            //no implement
+        }
+        return null
     }
 
     override fun openAppInMarket(packageName: String) {

@@ -18,8 +18,12 @@ class DownloadPresenter(private val model: Model) {
     fun bindView(v: DownloaderView) {
         view = v
         val url = model.getCopyUrl()
-        if (url != null && url != view?.url)
-            view?.url = url
+        if (url != null && url != view?.url) {
+            if (url.contains(TIK_TOK_URL))
+                view?.url = url
+            else
+                view?.showToast(App.component.context.getString(R.string.not_tik_tok_url))
+        }
     }
 
     fun unbindView() {
@@ -44,10 +48,18 @@ class DownloadPresenter(private val model: Model) {
     fun clickDownload(url: String?) {
         if (url != null) {
             view?.showVideoLoad()
-            model.downloadVideo(url) {
-                App.isDownloaded = true
-                lastVideoPath = it
-                view?.hideVideoLoad()
+            model.downloadVideo(url) { videoPath, code ->
+                when (code) {
+                    ModelImpl.SUCCESS_DOWNLOAD -> {
+                        App.isDownloaded = true
+                        lastVideoPath = videoPath
+                        view?.hideVideoLoad()
+                    }
+
+                    ModelImpl.ERROR_DOWNLOAD -> {
+                        view?.showToast(App.component.context.getString(R.string.error_downloading))
+                    }
+                }
             }
         }
     }

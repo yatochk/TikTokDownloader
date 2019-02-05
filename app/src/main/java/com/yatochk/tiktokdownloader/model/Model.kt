@@ -7,7 +7,7 @@ interface Model {
     fun openAppInMarket(packageName: String)
     fun getCopyUrl(): String?
     fun downloadPreview(url: String, view: ImageView, listener: ((code: Int) -> Unit)?)
-    fun downloadVideo(url: String, listener: ((String) -> Unit)?)
+    fun downloadVideo(url: String, listener: ((String, Int) -> Unit)?)
     fun shareApp()
     fun rate()
     fun getVideoFiles(): ArrayList<File>
