@@ -10,11 +10,13 @@ import android.os.Handler
 import android.util.AndroidRuntimeException
 import android.util.Log
 import android.widget.ImageView
+import androidx.core.content.FileProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.yatochk.tiktokdownloader.BuildConfig
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.model.db.StorageApi
@@ -122,12 +124,17 @@ class ModelImpl(
 
             if (fileWithinMyDir.exists()) {
                 intentShareFile.type = "video/*"
-                intentShareFile.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://$path"))
 
+                val uri =
+                    FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", File(path))
+
+                intentShareFile.putExtra(Intent.EXTRA_STREAM, uri)
+                intentShareFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 intentShareFile.putExtra(
                     Intent.EXTRA_SUBJECT,
                     context.getString(R.string.share_video)
                 )
+
                 intentShareFile.putExtra(Intent.EXTRA_TEXT, "Sharing File...")
                 context.startActivity(Intent.createChooser(intentShareFile, "Share File"))
             }
