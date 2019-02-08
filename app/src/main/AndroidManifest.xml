@@ -24,7 +24,8 @@
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_path"/>
         </provider>
 
-        <activity android:name=".view.preview.PreviewActivity">
+        <activity android:name=".view.preview.PreviewActivity"
+                  android:screenOrientation="portrait">
         </activity>
 
         <meta-data
@@ -37,10 +38,12 @@
                 android:name="com.facebook.sdk.CodelessDebugLogEnabled"
                 android:value="true"/>
 
-        <activity android:name=".view.VideoActivity">
+        <activity android:name=".view.VideoActivity"
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name=".view.main.MainActivity"
-                  android:windowSoftInputMode="stateHidden">
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
