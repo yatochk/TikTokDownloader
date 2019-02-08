@@ -12,8 +12,16 @@ import kotlinx.android.synthetic.main.fragment_gallery.*
 import java.io.File
 
 class GalleryFragment : Fragment(), Gallery {
-    private val adapter = GalleryRecyclerAdapter()
+
     private val presenter = App.component.galleryPresenter
+
+    private val adapter = GalleryRecyclerAdapter {
+        if (it.isNotEmpty()) {
+
+        } else {
+
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_gallery, container, false)
