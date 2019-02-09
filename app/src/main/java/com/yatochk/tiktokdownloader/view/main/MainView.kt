@@ -5,4 +5,5 @@ interface MainView {
     fun sendFeedback()
     fun showRate()
     fun goToHistory()
+    var showDeleteToolbar: Boolean
 }

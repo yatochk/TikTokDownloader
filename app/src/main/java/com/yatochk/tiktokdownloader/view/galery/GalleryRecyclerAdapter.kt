@@ -21,8 +21,12 @@ class GalleryRecyclerAdapter(private val selectedListener: (Set<File>) -> Unit) 
 
     var selectedItems: Set<File> = emptySet()
         set(value) {
-            selectedListener(value)
-            field = value
+            if (value.isEmpty()) {
+
+            } else {
+                selectedListener(value)
+                field = value
+            }
         }
 
 
@@ -121,6 +125,6 @@ class FileDiff : DiffUtil.ItemCallback<File>() {
     }
 
     override fun areContentsTheSame(oldItem: File, newItem: File): Boolean {
-        return oldItem.readBytes().contentEquals(newItem.readBytes())
+        return oldItem.absolutePath == newItem.absolutePath
     }
 }

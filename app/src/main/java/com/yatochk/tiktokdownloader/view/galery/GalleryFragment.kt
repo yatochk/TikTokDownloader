@@ -16,10 +16,12 @@ class GalleryFragment : Fragment(), Gallery {
     private val presenter = App.component.galleryPresenter
 
     private val adapter = GalleryRecyclerAdapter {
-        if (it.isNotEmpty()) {
-
-        } else {
-
+        with(App.component.mainPresenter) {
+            deleteFiles = if (it.isNotEmpty()) {
+                it
+            } else {
+                emptySet()
+            }
         }
     }
 

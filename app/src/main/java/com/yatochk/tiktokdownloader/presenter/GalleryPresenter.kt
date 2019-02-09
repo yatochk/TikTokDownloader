@@ -19,4 +19,8 @@ class GalleryPresenter(private val model: Model) {
     fun update() {
         view?.updateVideos(model.getVideoFiles())
     }
+
+    fun unselectedVideo() {
+
+    }
 }
