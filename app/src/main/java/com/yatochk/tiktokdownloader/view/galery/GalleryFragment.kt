@@ -18,6 +18,7 @@ class GalleryFragment : Fragment(), Gallery {
     private val adapter = GalleryRecyclerAdapter {
         with(App.component.mainPresenter) {
             deleteFiles = if (it.isNotEmpty()) {
+
                 it
             } else {
                 emptySet()

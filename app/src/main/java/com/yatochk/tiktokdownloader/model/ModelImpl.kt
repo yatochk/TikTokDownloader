@@ -178,32 +178,38 @@ class ModelImpl(
     }
 
     private fun loadHtmlPageUrl(url: String): String {
-        val urlConnection = URL(url).openConnection() as HttpURLConnection
-        urlConnection.requestMethod = "GET"
-        urlConnection.connect()
-        val redirectStream = urlConnection.inputStream
-        val redirectReader = BufferedReader(InputStreamReader(redirectStream))
+        try {
+            val urlConnection = URL(url).openConnection() as HttpURLConnection
+            urlConnection.requestMethod = "GET"
+            urlConnection.connect()
+            val redirectStream = urlConnection.inputStream
+            val redirectReader = BufferedReader(InputStreamReader(redirectStream))
 
-        var htmlUrlString = ""
-        for (line in redirectReader.readLines()) {
-            if (line.contains("target")) {
-                htmlUrlString = line.substring(line.indexOf("href=\""))
-                htmlUrlString = htmlUrlString.substring(6, htmlUrlString.indexOf("\">"))
+            var htmlUrlString = ""
+            for (line in redirectReader.readLines()) {
+                if (line.contains("target")) {
+                    htmlUrlString = line.substring(line.indexOf("href=\""))
+                    htmlUrlString = htmlUrlString.substring(6, htmlUrlString.indexOf("\">"))
+                }
             }
+
+            Log.d("FinalUrl", htmlUrlString)
+            val connection = URL(htmlUrlString).openConnection() as HttpURLConnection
+            connection.requestMethod = "GET"
+            connection.connect()
+            val inputStream = connection.inputStream
+            val reader = BufferedReader(InputStreamReader(inputStream))
+
+            var urlString = ""
+            reader.readLines().forEach {
+                urlString += it
+            }
+
+            return urlString
+        } catch (e: Exception) {
+            Log.e("Download", "Download tiktok video page is failed")
         }
 
-        Log.d("FinalUrl", htmlUrlString)
-        val connection = URL(htmlUrlString).openConnection() as HttpURLConnection
-        connection.requestMethod = "GET"
-        connection.connect()
-        val inputStream = connection.inputStream
-        val reader = BufferedReader(InputStreamReader(inputStream))
-
-        var urlString = ""
-        reader.readLines().forEach {
-            urlString += it
-        }
-
-        return urlString
+        return ""
     }
 }

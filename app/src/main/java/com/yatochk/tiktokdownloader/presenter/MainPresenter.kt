@@ -10,6 +10,7 @@ class MainPresenter(private val model: Model) {
     var deleteFiles: Set<File> = emptySet()
         set(value) {
             view?.showDeleteToolbar = !value.isEmpty()
+
             field = value
         }
 
