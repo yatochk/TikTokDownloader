@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.yatochk.tiktokdownloader.R
+import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.utils.URI_KEY
 import com.yatochk.tiktokdownloader.view.preview.PreviewActivity
 import kotlinx.android.synthetic.main.video_item.view.*
@@ -19,16 +20,11 @@ import java.io.File
 class GalleryRecyclerAdapter(private val selectedListener: (Set<File>) -> Unit) :
     ListAdapter<File, ViewHolder>(FileDiff()) {
 
-    var selectedItems: Set<File> = emptySet()
+    var selectedItems: MutableSet<File> = mutableSetOf()
         set(value) {
-            if (value.isEmpty()) {
-
-            } else {
-                selectedListener(value)
-                field = value
-            }
+            selectedListener(value)
+            field = value
         }
-
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder = ViewHolder(p0)
 
@@ -75,8 +71,16 @@ class GalleryRecyclerAdapter(private val selectedListener: (Set<File>) -> Unit) 
             }
         })
     }
-}
 
+    fun deleteSelectedVideo() {
+        while (selectedItems.size != 0) {
+            App.component.model.deleteVideo(selectedItems.first().absolutePath) {
+                selectedItems.remove(selectedItems.first())
+            }
+        }
+        selectedItems = mutableSetOf()
+    }
+}
 
 class ViewHolder(parent: ViewGroup) :
     RecyclerView.ViewHolder(
@@ -125,6 +129,6 @@ class FileDiff : DiffUtil.ItemCallback<File>() {
     }
 
     override fun areContentsTheSame(oldItem: File, newItem: File): Boolean {
-        return oldItem.absolutePath == newItem.absolutePath
+        return oldItem == newItem
     }
 }

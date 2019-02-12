@@ -14,15 +14,11 @@ import java.io.File
 class GalleryFragment : Fragment(), Gallery {
 
     private val presenter = App.component.galleryPresenter
-
-    private val adapter = GalleryRecyclerAdapter {
-        with(App.component.mainPresenter) {
-            deleteFiles = if (it.isNotEmpty()) {
-
-                it
-            } else {
-                emptySet()
-            }
+    private var adapter = GalleryRecyclerAdapter {
+        if (it.isNotEmpty()) {
+            floating_button_delete.visibility = View.VISIBLE
+        } else {
+            floating_button_delete.visibility = View.INVISIBLE
         }
     }
 
@@ -35,6 +31,9 @@ class GalleryFragment : Fragment(), Gallery {
         presenter.bindView(this)
         recycler_video.layoutManager = GridLayoutManager(activity, 4)
         recycler_video.adapter = adapter
+        floating_button_delete.setOnClickListener {
+            adapter.deleteSelectedVideo()
+        }
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
