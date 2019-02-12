@@ -15,11 +15,9 @@ class GalleryFragment : Fragment(), Gallery {
 
     private val presenter = App.component.galleryPresenter
     private var adapter = GalleryRecyclerAdapter {
-        if (it.isNotEmpty()) {
-            floating_button_delete.visibility = View.VISIBLE
-        } else {
-            floating_button_delete.visibility = View.INVISIBLE
-        }
+        floating_button_delete.visibility =
+                if (it) View.VISIBLE
+                else View.INVISIBLE
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

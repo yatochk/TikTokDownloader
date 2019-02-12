@@ -1,8 +1,6 @@
 package com.yatochk.tiktokdownloader.view.galery
 
 import android.content.Intent
-import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -17,68 +15,59 @@ import com.yatochk.tiktokdownloader.view.preview.PreviewActivity
 import kotlinx.android.synthetic.main.video_item.view.*
 import java.io.File
 
-class GalleryRecyclerAdapter(private val selectedListener: (Set<File>) -> Unit) :
+class GalleryRecyclerAdapter(private val selectedListener: (Boolean) -> Unit) :
     ListAdapter<File, ViewHolder>(FileDiff()) {
 
-    var selectedItems: MutableSet<File> = mutableSetOf()
-        set(value) {
-            selectedListener(value)
-            field = value
-        }
+    private val selectedItems: ArrayList<File> = ArrayList()
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder = ViewHolder(p0)
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
+        p0.selected = false
         p0.bind(getItem(p1), object : ViewHolder.ItemClickListener {
             override fun longClick() {
-                if (p0.selected) {
-                    p0.selected = false
-                    val mutableSet = mutableSetOf<File>()
-                    mutableSet.addAll(selectedItems)
-                    mutableSet.remove(getItem(p1))
-                    selectedItems = mutableSet
-                } else {
-                    p0.selected = true
-                    val mutableSet = mutableSetOf<File>()
-                    mutableSet.addAll(selectedItems)
-                    mutableSet.add(getItem(p1))
-                    selectedItems = mutableSet
+                if (selectedItems.isEmpty())
+                    selectedListener(true)
+
+                with(p0) {
+                    selected = !selected
+                    if (selected)
+                        selectedItems.add(getItem(p1))
+                    else
+                        selectedItems.remove(getItem(p1))
                 }
+
+                if (selectedItems.isEmpty())
+                    selectedListener(false)
             }
 
             override fun click() {
                 with(p0) {
                     if (selectedItems.isNotEmpty()) {
-                        if (selected) {
-                            selected = false
-                            val mutableSet = mutableSetOf<File>()
-                            mutableSet.addAll(selectedItems)
-                            mutableSet.remove(getItem(p1))
-                            selectedItems = mutableSet
-                        } else {
-                            selected = true
-                            val mutableSet = mutableSetOf<File>()
-                            mutableSet.addAll(selectedItems)
-                            mutableSet.add(getItem(p1))
-                            selectedItems = mutableSet
-                        }
+                        selected = !selected
+                        if (selected)
+                            selectedItems.add(getItem(p1))
+                        else
+                            selectedItems.remove(getItem(p1))
                     } else {
                         val intent = Intent(itemView.context, PreviewActivity::class.java)
                         intent.putExtra(URI_KEY, getItem(p1).absolutePath)
                         itemView.context.startActivity(intent)
                     }
                 }
+
+                if (selectedItems.isEmpty())
+                    selectedListener(false)
             }
         })
     }
 
     fun deleteSelectedVideo() {
-        while (selectedItems.size != 0) {
-            App.component.model.deleteVideo(selectedItems.first().absolutePath) {
-                selectedItems.remove(selectedItems.first())
-            }
+        selectedItems.forEach { selectedVideo ->
+            App.component.model.deleteVideo(selectedVideo.absolutePath) {}
         }
-        selectedItems = mutableSetOf()
+        selectedItems.clear()
+        submitList(App.component.model.getVideoFiles())
     }
 }
 
@@ -89,7 +78,7 @@ class ViewHolder(parent: ViewGroup) :
 
     var selected = false
         set(value) {
-            itemView.image_preview.setBackgroundColor(
+            itemView.parent_video_item.setBackgroundColor(
                 ContextCompat.getColor(
                     itemView.context,
                     if (value)
@@ -102,7 +91,6 @@ class ViewHolder(parent: ViewGroup) :
 
     fun bind(file: File, selectedListener: ItemClickListener) {
         with(itemView) {
-            Log.d("MYLOG", Uri.fromFile(file).toString())
             Glide.with(context)
                 .load(file)
                 .into(image_preview)
