@@ -11,6 +11,6 @@ interface Model {
     fun shareApp()
     fun rate()
     fun getVideoFiles(): ArrayList<File>
-    fun deleteVideo(path: String, listener: ((Boolean) -> Unit)?)
+    fun deleteVideo(path: String)
     fun shareVideo(path: String)
 }

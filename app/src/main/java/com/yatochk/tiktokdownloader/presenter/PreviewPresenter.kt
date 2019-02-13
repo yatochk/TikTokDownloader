@@ -22,12 +22,10 @@ class PreviewPresenter(private val model: Model) {
     }
 
     fun clickDelete(path: String) {
-        model.deleteVideo(path) {
-            if (it) {
-                view?.showToast(App.component.context.getString(R.string.video_deleted))
-                view?.close()
-            }
-        }
+        model.deleteVideo(path)
+        App.component.galleryPresenter.update()
+        view?.showToast(App.component.context.getString(R.string.video_deleted))
+        view?.close()
     }
 
     fun clickPreview() {

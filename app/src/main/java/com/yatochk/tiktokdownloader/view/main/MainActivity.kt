@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -112,6 +113,12 @@ class MainActivity : AppCompatActivity(), MainView {
 
         checkPermission()
     }
+
+    override var showDeleteToolbar: Boolean = false
+        set(value) {
+            button_delete_tool.visibility = if (value) View.VISIBLE else View.INVISIBLE
+            field = value
+        }
 
     override fun goToHistory() =
         main_pager.setCurrentItem(1, true)

@@ -10,11 +10,22 @@ import java.io.File
 import java.lang.Long.compare
 import java.util.*
 
+
 class StorageRepository : StorageApi {
-    override fun deleteFile(path: String, listener: ((Boolean) -> Unit)?) {
+    override fun deleteFile(path: String) {
         val file = File(path)
-        val isDeleted = if (file.exists()) file.delete() else false
-        listener?.invoke(isDeleted)
+        file.delete()
+
+        MediaScannerConnection.scanFile(
+            App.component.context,
+            arrayOf(
+                Environment.getExternalStorageDirectory().absolutePath +
+                        TIK_TOK_FOLBER + file.name
+            ), null
+        ) { newPath, newUri ->
+            Log.i("ExternalStorage", "Scanned $newPath:")
+            Log.i("ExternalStorage", "-> uri=$newUri")
+        }
     }
 
     override fun getFiles(): ArrayList<File> {
