@@ -43,7 +43,7 @@ class GalleryFragment : Fragment(), Gallery {
     }
 
     override fun updateVideos(files: ArrayList<File>) {
-        adapter.submitList(files)
+        adapter.updateVideos(files)
     }
 
     override fun onPause() {

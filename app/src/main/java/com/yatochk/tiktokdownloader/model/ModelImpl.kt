@@ -18,7 +18,6 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.yatochk.tiktokdownloader.BuildConfig
 import com.yatochk.tiktokdownloader.R
-import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.model.db.StorageApi
 import com.yatochk.tiktokdownloader.model.download.TikTokApi
 import java.io.BufferedReader
@@ -35,11 +34,8 @@ class ModelImpl(
     private val storageApi: StorageApi
 ) : Model {
 
-    override fun deleteVideo(path: String, listener: ((Boolean) -> Unit)?) {
-        storageApi.deleteFile(path) {
-            App.component.galleryPresenter.update()
-            listener?.invoke(it)
-        }
+    override fun deleteVideo(path: String) {
+        storageApi.deleteFile(path)
     }
 
     companion object {

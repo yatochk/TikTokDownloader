@@ -4,7 +4,6 @@ import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Environment
 import android.util.Log
-import androidx.core.content.FileProvider
 import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.utils.TIK_TOK_FOLBER
 import java.io.File
@@ -13,16 +12,9 @@ import java.util.*
 
 
 class StorageRepository : StorageApi {
-    override fun deleteFile(path: String, listener: ((Boolean) -> Unit)?) {
+    override fun deleteFile(path: String) {
         val file = File(path)
-        val uri = FileProvider.getUriForFile(
-            App.component.context,
-            App.component.context.applicationContext.packageName +
-                    ".provider",
-            file
-        )
-        val contentResolver = App.component.context.contentResolver
-        contentResolver.delete(uri, null, null)
+        file.delete()
 
         MediaScannerConnection.scanFile(
             App.component.context,
@@ -34,8 +26,6 @@ class StorageRepository : StorageApi {
             Log.i("ExternalStorage", "Scanned $newPath:")
             Log.i("ExternalStorage", "-> uri=$newUri")
         }
-
-        listener?.invoke(true)
     }
 
     override fun getFiles(): ArrayList<File> {

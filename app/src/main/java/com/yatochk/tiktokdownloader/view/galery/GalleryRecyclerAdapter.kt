@@ -4,8 +4,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.yatochk.tiktokdownloader.R
@@ -15,30 +13,26 @@ import com.yatochk.tiktokdownloader.view.preview.PreviewActivity
 import kotlinx.android.synthetic.main.video_item.view.*
 import java.io.File
 
-class GalleryRecyclerAdapter(private val selectedListener: (Boolean) -> Unit) :
-    ListAdapter<File, ViewHolder>(FileDiff()) {
-
+class GalleryRecyclerAdapter(private val selectedListener: (Boolean) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
     private val selectedItems: ArrayList<File> = ArrayList()
+
+    private val items = ArrayList<File>()
+    override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder = ViewHolder(p0)
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         p0.selected = false
-        p0.bind(getItem(p1), object : ViewHolder.ItemClickListener {
+        p0.bind(items[p1], object : ViewHolder.ItemClickListener {
             override fun longClick() {
-                if (selectedItems.isEmpty())
-                    selectedListener(true)
-
                 with(p0) {
                     selected = !selected
                     if (selected)
-                        selectedItems.add(getItem(p1))
+                        selectedItems.add(items[p1])
                     else
-                        selectedItems.remove(getItem(p1))
+                        selectedItems.remove(items[p1])
                 }
-
-                if (selectedItems.isEmpty())
-                    selectedListener(false)
+                selectedListener(selectedItems.isNotEmpty())
             }
 
             override fun click() {
@@ -46,12 +40,12 @@ class GalleryRecyclerAdapter(private val selectedListener: (Boolean) -> Unit) :
                     if (selectedItems.isNotEmpty()) {
                         selected = !selected
                         if (selected)
-                            selectedItems.add(getItem(p1))
+                            selectedItems.add(items[p1])
                         else
-                            selectedItems.remove(getItem(p1))
+                            selectedItems.remove(items[p1])
                     } else {
                         val intent = Intent(itemView.context, PreviewActivity::class.java)
-                        intent.putExtra(URI_KEY, getItem(p1).absolutePath)
+                        intent.putExtra(URI_KEY, items[p1].absolutePath)
                         itemView.context.startActivity(intent)
                     }
                 }
@@ -63,12 +57,20 @@ class GalleryRecyclerAdapter(private val selectedListener: (Boolean) -> Unit) :
     }
 
     fun deleteSelectedVideo() {
-        selectedItems.forEach { selectedVideo ->
-            App.component.model.deleteVideo(selectedVideo.absolutePath) {}
+        while (selectedItems.isNotEmpty()) {
+            App.component.model.deleteVideo(selectedItems[0].absolutePath)
+            selectedItems.removeAt(0)
         }
-        selectedItems.clear()
-        submitList(App.component.model.getVideoFiles())
+        selectedListener(false)
+        updateVideos(App.component.model.getVideoFiles())
     }
+
+    fun updateVideos(videos: List<File>) {
+        items.clear()
+        items.addAll(videos)
+        notifyDataSetChanged()
+    }
+
 }
 
 class ViewHolder(parent: ViewGroup) :
@@ -108,15 +110,5 @@ class ViewHolder(parent: ViewGroup) :
     interface ItemClickListener {
         fun click()
         fun longClick()
-    }
-}
-
-class FileDiff : DiffUtil.ItemCallback<File>() {
-    override fun areItemsTheSame(oldItem: File, newItem: File): Boolean {
-        return oldItem.absolutePath == newItem.absolutePath
-    }
-
-    override fun areContentsTheSame(oldItem: File, newItem: File): Boolean {
-        return oldItem == newItem
     }
 }

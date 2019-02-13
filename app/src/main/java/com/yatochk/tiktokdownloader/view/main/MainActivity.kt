@@ -111,9 +111,6 @@ class MainActivity : AppCompatActivity(), MainView {
             )
             .build()
 
-        button_delete_tool.setOnClickListener {
-            presenter.clickDelete()
-        }
         checkPermission()
     }
 
