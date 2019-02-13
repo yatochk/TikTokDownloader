@@ -76,8 +76,10 @@
             android:textAllCaps="false"
             android:background="@color/white"
             app:layout_constraintTop_toTopOf="@+id/button_paste"
-            app:layout_constraintBottom_toBottomOf="@+id/button_paste" android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/button_paste"
+            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"/>
+
     <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -89,7 +91,8 @@
             android:layout_marginEnd="12dp"
             app:cardCornerRadius="10dp"
             android:id="@+id/card_instruction"
-            app:layout_constraintBottom_toTopOf="@+id/ads_download" android:layout_marginBottom="8dp">
+            app:layout_constraintBottom_toTopOf="@+id/ads_download"
+            android:layout_marginBottom="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

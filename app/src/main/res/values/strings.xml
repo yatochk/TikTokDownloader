@@ -22,8 +22,7 @@
     <string name="share_text">Check out TikTok downloader app:</string>
 
     //Privacy
-    <string name="privacy_title">Privacy politics</string>
-    <string name="privacy_message">Privacy</string>
+    <string name="privacy_url">https://www.google.ru/</string>
 
     //Feedback
     <string name="have_problem">Have a problem? Please share it with us and we will do our best to solve it!</string>

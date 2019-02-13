@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -214,14 +214,8 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun showPrivacy() {
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.privacy_title))
-            .setMessage(R.string.privacy_message)
-            .setPositiveButton(android.R.string.yes) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .setIcon(R.drawable.ic_info)
-            .show()
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.privacy_url)))
+        startActivity(intent)
     }
 }
 

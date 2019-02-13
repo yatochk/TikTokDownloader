@@ -1,5 +1,6 @@
 package com.yatochk.tiktokdownloader.view
 
+import android.graphics.Point
 import android.os.Bundle
 import android.util.Log
 import android.widget.MediaController
@@ -17,8 +18,15 @@ class VideoActivity : AppCompatActivity() {
 
         val uri = intent.getStringExtra(URI_KEY)
         Log.d("VideoActivityUri", uri.toString())
-        video_view.setVideoPath(uri)
-        video_view.setMediaController(MediaController(this))
-        video_view.start()
+        with(video_view) {
+            setVideoPath(uri)
+            setMediaController(MediaController(this@VideoActivity))
+            requestFocus()
+            start()
+        }
+        val display = windowManager.defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        video_view.holder.setFixedSize(size.x, size.y)
     }
 }
