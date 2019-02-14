@@ -11,13 +11,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/recycler_video"
-            app:layout_constraintBottom_toBottomOf="@+id/adView" android:layout_marginStart="6dp"
+            app:layout_constraintBottom_toBottomOf="@id/ads_gallery"
+            android:layout_marginStart="6dp"
             android:layout_marginEnd="6dp"/>
     <com.google.android.gms.ads.AdView
             xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/adView"
+            android:id="@+id/ads_gallery"
             ads:adSize="BANNER"
             ads:adUnitId="@string/gallery_banner_id"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -26,9 +27,14 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true" app:srcCompat="@drawable/ic_delete_white" android:id="@+id/floating_button_delete"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_delete_white"
+            android:id="@+id/floating_button_delete"
             android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/adView" android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent" android:visibility="invisible"/>
+            app:layout_constraintBottom_toTopOf="@id/ads_gallery"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="invisible"
+            android:focusable="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,7 @@ import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.tabs.TabLayout
 import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.dagger.App
@@ -73,37 +76,43 @@ class MainActivity : AppCompatActivity(), MainView {
         DrawerBuilder()
             .withActivity(this)
             .withToolbar(toolbar)
-            .withActionBarDrawerToggle(true)
-            .withActionBarDrawerToggleAnimated(true)
             .withHeader(R.layout.drow_header)
             .addDrawerItems(
                 PrimaryDrawerItem()
                     .withName(R.string.drawer_downloader)
                     .withBadge("ad")
+                    .withSelectable(false)
+                    .withSelectedTextColorRes(R.color.black)
+                    .withSelectedColorRes(R.color.white)
+                    .withBadgeStyle(BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.adColor))
                     .withOnDrawerItemClickListener { _, _, _ ->
                         presenter.clickInstaDownloader()
                         true
                     },
                 PrimaryDrawerItem()
                     .withName(R.string.drawer_rate)
+                    .withSelectable(false)
                     .withOnDrawerItemClickListener { _, _, _ ->
                         presenter.clickRate()
                         true
                     },
                 PrimaryDrawerItem()
                     .withName(R.string.drawer_recommend)
+                    .withSelectable(false)
                     .withOnDrawerItemClickListener { _, _, _ ->
                         presenter.clickRecommend()
                         true
                     },
                 PrimaryDrawerItem()
                     .withName(R.string.drawer_feedback)
+                    .withSelectable(false)
                     .withOnDrawerItemClickListener { _, _, _ ->
                         presenter.clickFeedback()
                         true
                     },
                 PrimaryDrawerItem()
                     .withName(R.string.drawer_privacy)
+                    .withSelectable(false)
                     .withOnDrawerItemClickListener { _, _, _ ->
                         presenter.clickPrivacy()
                         true
@@ -126,7 +135,6 @@ class MainActivity : AppCompatActivity(), MainView {
     override fun showRate() {
         if (App.isDownloaded) {
             App.adCount++
-            App.isDownloaded = false
         }
 
         val adDelayCount = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -137,7 +145,8 @@ class MainActivity : AppCompatActivity(), MainView {
         if (App.adCount > adDelayCount && !isNeverRate) {
             RatingDialog().show(supportFragmentManager, "rating")
             App.adCount = 0
-        } else if (mInterstitialAd.isLoaded) {
+        } else if (mInterstitialAd.isLoaded && App.isDownloaded) {
+            App.isDownloaded = false
             mInterstitialAd.show()
         }
     }
@@ -176,10 +185,26 @@ class MainActivity : AppCompatActivity(), MainView {
         presenter.unbindView()
     }
 
+    var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {
-        if (main_pager.currentItem == 1)
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        if (main_pager.currentItem == 1) {
             main_pager.setCurrentItem(0, true)
-        showRate()
+            showRate()
+            App.isDownloaded = false
+        }
+
+        Handler().postDelayed(
+            {
+                doubleBackToExitPressedOnce = false
+            },
+            1000
+        )
     }
 
     override fun sendFeedback() {
@@ -197,8 +222,7 @@ class MainActivity : AppCompatActivity(), MainView {
 
         val version = info!!.versionName
         val intent = Intent(Intent.ACTION_SEND)
-
-        intent.type = "message/rfc822"
+        intent.type = "plain/text"
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(getString(R.string.developer_email)))
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name) + version)
         intent.putExtra(

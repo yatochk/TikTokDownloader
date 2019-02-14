@@ -22,7 +22,7 @@
     <string name="share_text">Check out TikTok downloader app:</string>
 
     //Privacy
-    <string name="privacy_url">https://www.google.ru/</string>
+    <string name="privacy_url" translatable="false">https://www.google.ru/</string>
 
     //Feedback
     <string name="have_problem">Have a problem? Please share it with us and we will do our best to solve it!</string>
@@ -44,8 +44,10 @@
 
     <string name="error_downloading">Error on download</string>
 
+    <string name="exit_back">Please click BACK again to exit</string>
+
     //ADS
-    <string name="facebook_app_id">2051460464907599</string>
+    <string name="facebook_app_id" translatable="false">2051460464907599</string>
     <string name="ad_mob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
     <string name="download_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
     <string name="video_banner_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
