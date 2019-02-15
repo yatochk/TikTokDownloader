@@ -6,7 +6,7 @@ const val URI_KEY = "uri"
 const val TIK_TOK_FOLBER = "/VideoFromTikTok/"
 const val USER_PERISSION_GRANTED = 102
 
-const val RATE_COUNT = 3
+const val RATE_COUNT = 1
 const val LATER_RATE_COUNT = 5
 
 const val PREFS_NAME = "preference"

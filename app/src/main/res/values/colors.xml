@@ -10,4 +10,7 @@
     <color name="unselectedColor">#9E9E9E</color>
 
     <color name="adColor">#00CC99</color>
+    <color name="previewDark">#87000000</color>
+
+    <color name="darkBlue">#003366</color>
 </resources>

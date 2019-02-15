@@ -2,8 +2,8 @@ package com.yatochk.tiktokdownloader.view.galery
 
 import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.yatochk.tiktokdownloader.R
@@ -70,7 +70,6 @@ class GalleryRecyclerAdapter(private val selectedListener: (Boolean) -> Unit) : 
         items.addAll(videos)
         notifyDataSetChanged()
     }
-
 }
 
 class ViewHolder(parent: ViewGroup) :
@@ -80,14 +79,8 @@ class ViewHolder(parent: ViewGroup) :
 
     var selected = false
         set(value) {
-            itemView.parent_video_item.setBackgroundColor(
-                ContextCompat.getColor(
-                    itemView.context,
-                    if (value)
-                        R.color.accent
-                    else R.color.white
-                )
-            )
+            itemView.item_view_dark.visibility = if (value) View.VISIBLE else View.INVISIBLE
+            itemView.item_view_check.visibility = if (value) View.VISIBLE else View.INVISIBLE
             field = value
         }
 
@@ -95,7 +88,7 @@ class ViewHolder(parent: ViewGroup) :
         with(itemView) {
             Glide.with(context)
                 .load(file)
-                .into(image_preview)
+                .into(item_view)
 
             setOnClickListener {
                 selectedListener.click()
