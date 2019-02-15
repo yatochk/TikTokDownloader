@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.DisplayMetrics
@@ -223,12 +224,17 @@ class MainActivity : AppCompatActivity(), MainView {
         val version = info!!.versionName
 
         EmailIntentBuilder.from(this)
-            .to("alice@example.org")
-            .cc("bob@example.org")
-            .bcc("charles@example.org")
-            .subject("Message from an app")
-            .body("Some text here")
-            .start();
+            .to(getString(R.string.developer_email))
+            .subject(getString(R.string.app_name) + version)
+            .body(
+                "\n" + " Device :" + getDeviceName() +
+                        "\n" + " System Version:" + Build.VERSION.SDK_INT +
+                        "\n" + " Display Height  :" + height + "px" +
+                        "\n" + " Display Width  :" + width + "px" +
+                        "\n\n" + getString(R.string.have_problem) +
+                        "\n"
+            )
+            .start()
     }
 
     override fun showPrivacy() {

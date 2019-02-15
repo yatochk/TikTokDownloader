@@ -72,6 +72,7 @@ class DownloadPresenter(private val model: Model) {
     fun urlChange(url: String?, imageView: ImageView) {
         if (url != null)
             if (url.contains(TIK_TOK_URL)) {
+                lastVideoPath = ""
                 view?.showPreviewLoad()
                 model.downloadPreview(url, imageView) {
                     if (it == ModelImpl.SUCCESS_DOWNLOAD)

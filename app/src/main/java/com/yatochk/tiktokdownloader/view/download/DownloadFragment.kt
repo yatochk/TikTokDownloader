@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.gms.ads.AdRequest
-import com.google.android.material.snackbar.Snackbar
 import com.yatochk.tiktokdownloader.R
 import com.yatochk.tiktokdownloader.dagger.App
 import com.yatochk.tiktokdownloader.utils.TIK_TOK_PACKAGE
@@ -66,11 +65,19 @@ class DownloadFragment : Fragment(), DownloaderView {
             val intent = activity?.packageManager?.getLaunchIntentForPackage(TIK_TOK_PACKAGE)
             if (intent != null)
                 startActivity(intent)
-            else
-                Snackbar.make(it, getString(R.string.install_tik_tok), Snackbar.LENGTH_LONG)
-                    .setAction(getString(R.string.go_install)) {
-                        presenter.clickSnackAction()
-                    }.show()
+            else {
+                val parent = CustomSnackbar.findSuitableParent(view)
+                val customSnackbar = CustomSnackbar.make(parent, CustomSnackbar.LENGTH_LONG)
+                customSnackbar.setText(getString(R.string.install_tik_tok))
+                customSnackbar.setAction(getString(R.string.go_install)) {
+                    presenter.clickSnackAction()
+                }
+                customSnackbar.show()
+            }
+            /*Snackbar.make(it, getString(R.string.install_tik_tok), Snackbar.LENGTH_LONG)
+                .setAction(getString(R.string.go_install)) {
+                    presenter.clickSnackAction()
+                }.show()*/
         }
 
         button_paste.setOnClickListener {

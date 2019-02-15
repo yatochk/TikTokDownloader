@@ -13,4 +13,5 @@
     <color name="previewDark">#87000000</color>
 
     <color name="darkBlue">#003366</color>
+    <color name="snackText">#ffffff</color>
 </resources>
