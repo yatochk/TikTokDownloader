@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TikTokDownloader</string>
+    <string name="app_name">Downloader for TikTok</string>
     <string name="tab_download">Download</string>
     <string name="tab_history">History</string>
     <string name="clear_description">clear</string>
@@ -10,7 +10,8 @@
     <string name="go_install">Go to install</string>
 
     //Drawer
-    <string name="drawer_downloader">Downloader for instragram</string>
+    <string name="drawer_downloader">Downloader for Instragram</string>
+    <string name="insta_url">https://redirect.appmetrica.yandex.com/serve/170127246730819773</string>
     <string name="drawer_rate">Rate us</string>
     <string name="drawer_recommend">Recommend for friends</string>
     <string name="drawer_feedback">Feedback</string>
@@ -45,6 +46,9 @@
     <string name="error_downloading">Error on download</string>
 
     <string name="exit_back">Please click BACK again to exit</string>
+
+    //App Metrica
+    <string name="appmetrica_key">af76ddec-5e17-4c81-b097-59e7485101f8</string>
 
     //ADS
     <string name="facebook_app_id" translatable="false">2051460464907599</string>

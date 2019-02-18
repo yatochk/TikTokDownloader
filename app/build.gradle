@@ -9,7 +9,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.hhade.tiktokdownloader"
+        applicationId "com.downloaderfor.tiktok"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:4.40.0'
 
     implementation 'de.cketti.mailto:email-intent-builder:1.0.0'
+    implementation 'com.yandex.android:mobmetricalib:3.5.3'
 }
 
 kapt {

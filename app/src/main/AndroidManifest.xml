@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="com.yatochk.tiktokdownloader">
+          package="com.downloaderfor.tiktok">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
-            android:name=".dagger.App"
+            android:name="com.downloaderfor.tiktok.dagger.App"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
@@ -24,7 +24,7 @@
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_path"/>
         </provider>
 
-        <activity android:name=".view.preview.PreviewActivity"
+        <activity android:name="com.downloaderfor.tiktok.view.preview.PreviewActivity"
                   android:screenOrientation="portrait">
         </activity>
 
@@ -38,10 +38,10 @@
                 android:name="com.facebook.sdk.CodelessDebugLogEnabled"
                 android:value="true"/>
 
-        <activity android:name=".view.VideoActivity"
+        <activity android:name="com.downloaderfor.tiktok.view.VideoActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.main.MainActivity"
+        <activity android:name="com.downloaderfor.tiktok.view.main.MainActivity"
                   android:screenOrientation="portrait"
                   android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
