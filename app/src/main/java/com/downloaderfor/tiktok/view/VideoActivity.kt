@@ -21,6 +21,7 @@ class VideoActivity : AppCompatActivity() {
 
         val uri = intent.getStringExtra(URI_KEY)
         Log.d("VideoActivityUri", uri.toString())
+
         with(video_view) {
             setVideoPath(uri)
             setMediaController(MediaController(this@VideoActivity))

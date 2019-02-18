@@ -25,6 +25,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.tabs.TabLayout
+import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.holder.BadgeStyle
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity(), MainView {
         )
     )
 
+    private var drawer: Drawer? = null
     private lateinit var mInterstitialAd: InterstitialAd
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +82,7 @@ class MainActivity : AppCompatActivity(), MainView {
             }
         })
 
-        DrawerBuilder()
+        drawer = DrawerBuilder()
             .withActivity(this)
             .withToolbar(toolbar)
             .withHeader(R.layout.drow_header)
@@ -196,11 +198,24 @@ class MainActivity : AppCompatActivity(), MainView {
     var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
+
             super.onBackPressed()
             return
         }
+        if (drawer!!.isDrawerOpen) {
+            drawer!!.closeDrawer()
+            return
+        }
+
 
         this.doubleBackToExitPressedOnce = true
+
+        if (main_pager.currentItem == 1) {
+            main_pager.setCurrentItem(0, true)
+            showRate()
+            App.isDownloaded = false
+        }
+
         Handler().postDelayed(
             {
                 doubleBackToExitPressedOnce = false
