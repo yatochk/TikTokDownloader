@@ -37,13 +37,13 @@ class DownloadFragment : Fragment(), DownloaderView {
         }
 
     override fun showPreviewLoad() {
-        download_instruction.visibility = View.INVISIBLE
+        instruction_parent.visibility = View.INVISIBLE
         download_preview.visibility = View.INVISIBLE
         progress_preview_download.visibility = View.VISIBLE
     }
 
     override fun showPreview() {
-        download_instruction.visibility = View.INVISIBLE
+        instruction_parent.visibility = View.INVISIBLE
         progress_preview_download.visibility = View.INVISIBLE
         download_preview.visibility = View.VISIBLE
     }
@@ -123,6 +123,6 @@ class DownloadFragment : Fragment(), DownloaderView {
     override fun showInstruction() {
         progress_preview_download.visibility = View.INVISIBLE
         download_preview.visibility = View.INVISIBLE
-        download_instruction.visibility = View.VISIBLE
+        instruction_parent.visibility = View.VISIBLE
     }
 }

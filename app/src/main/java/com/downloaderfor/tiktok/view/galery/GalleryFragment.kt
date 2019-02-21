@@ -13,9 +13,24 @@ import kotlinx.android.synthetic.main.fragment_gallery.*
 import java.io.File
 
 class GalleryFragment : Fragment(), Gallery {
+    override fun updateRecycler() {
+        floating_button_delete.visibility = View.INVISIBLE
+        isSelected = false
+        adapter = GalleryRecyclerAdapter {
+            isSelected = it
+            floating_button_delete.visibility =
+                    if (it) View.VISIBLE
+                    else View.INVISIBLE
+        }
+        recycler_video.adapter = adapter
+        updateVideos(App.component.model.getVideoFiles())
+    }
+
+    var isSelected = false
 
     private val presenter = App.component.galleryPresenter
     private var adapter = GalleryRecyclerAdapter {
+        isSelected = it
         floating_button_delete.visibility =
                 if (it) View.VISIBLE
                 else View.INVISIBLE

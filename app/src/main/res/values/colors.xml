@@ -14,4 +14,6 @@
 
     <color name="darkBlue">#003366</color>
     <color name="snackText">#ffffff</color>
+
+    <color name="videoControlColor">#ffffff</color>
 </resources>

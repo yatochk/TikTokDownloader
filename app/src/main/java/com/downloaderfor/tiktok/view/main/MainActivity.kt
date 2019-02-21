@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), MainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         MobileAds.initialize(this, getString(R.string.ad_mob_app_id))
         mInterstitialAd = InterstitialAd(this)
@@ -198,7 +198,6 @@ class MainActivity : AppCompatActivity(), MainView {
     var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-
             super.onBackPressed()
             return
         }
@@ -206,7 +205,10 @@ class MainActivity : AppCompatActivity(), MainView {
             drawer!!.closeDrawer()
             return
         }
-
+        if ((adapter.getItem(1) as GalleryFragment).isSelected) {
+            (adapter.getItem(1) as GalleryFragment).updateRecycler()
+            return
+        }
 
         this.doubleBackToExitPressedOnce = true
 

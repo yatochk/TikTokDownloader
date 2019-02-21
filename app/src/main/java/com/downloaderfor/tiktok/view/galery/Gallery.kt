@@ -4,4 +4,5 @@ import java.io.File
 
 interface Gallery {
     fun updateVideos(files: ArrayList<File>)
+    fun updateRecycler()
 }

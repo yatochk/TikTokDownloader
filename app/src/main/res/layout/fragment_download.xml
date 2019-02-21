@@ -96,15 +96,57 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:id="@+id/instruction_parent">
 
-
-            <include android:layout_width="wrap_content" android:layout_height="wrap_content"
+            <include android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
                      layout="@layout/instruction"
                      android:layout_marginTop="16dp"
-                     app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
-                     android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
-                     android:layout_marginStart="8dp" android:id="@+id/download_instruction"/>
+                     app:layout_constraintTop_toTopOf="parent"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     android:layout_marginEnd="8dp"
+                     app:layout_constraintStart_toStartOf="parent"
+                     android:layout_marginStart="8dp"
+                     android:id="@+id/download_instruction"/>
+            <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toBottomOf="@+id/download_instruction"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:gravity="center_horizontal"
+                              android:paddingStart="8dp"
+                              android:paddingEnd="8dp"
+                              android:orientation="vertical">
+
+                    <ImageView
+                            style="@style/ImageInstruction"
+                            android:src="@drawable/instr_1"/>
+
+                    <ImageView
+                            style="@style/ImageInstruction"
+                            android:src="@drawable/instr_2" android:layout_height="250dp"/>
+
+                    <ImageView
+                            style="@style/ImageInstruction"
+                            android:src="@drawable/instr_3"/>
+
+                    <ImageView
+                            style="@style/ImageInstruction"
+                            android:src="@drawable/instr_4"/>
+
+                </LinearLayout>
+            </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
             <ProgressBar
                     style="?android:attr/progressBarStyle"
                     android:layout_width="wrap_content"
