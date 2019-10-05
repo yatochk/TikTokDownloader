@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Handler
 import android.util.AndroidRuntimeException
 import android.util.Log
 import android.widget.ImageView
@@ -20,12 +19,18 @@ import com.downloaderfor.tiktok.BuildConfig
 import com.downloaderfor.tiktok.R
 import com.downloaderfor.tiktok.model.db.StorageApi
 import com.downloaderfor.tiktok.model.download.TikTokApi
+import com.downloaderfor.tiktok.utils.END_PREVIEW_URL
+import com.downloaderfor.tiktok.utils.START_PREVIEW_URL
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-import kotlin.concurrent.thread
 
 
 class ModelImpl(
@@ -34,28 +39,40 @@ class ModelImpl(
     private val storageApi: StorageApi
 ) : Model {
 
+    companion object {
+        const val SUCCESS_DOWNLOAD = 200
+        const val ERROR_DOWNLOAD = 404
+
+    }
+
+    private val compositeDisposable = CompositeDisposable()
+
+    override fun dispose() {
+        compositeDisposable.dispose()
+    }
+
     override fun deleteVideo(path: String) {
         storageApi.deleteFile(path)
     }
 
-    companion object {
-        const val SUCCESS_DOWNLOAD = 200
-        const val ERROR_DOWNLOAD = 404
-    }
-
     override fun downloadPreview(url: String, view: ImageView, listener: ((code: Int) -> Unit)?) {
-        val handler = Handler()
-        thread {
-            val htmlString = loadHtmlPageUrl(url)
-
-            var previewUrl = htmlString.substring(htmlString.indexOf("\"cover\":{\"url_list\":[\"\\/\\/"))
-            previewUrl = previewUrl.substring(26, previewUrl.indexOf("\","))
-            previewUrl = "http://" + previewUrl.filter { it != '\\' }
-            Log.d("PreviewUrl", "Preview url: $previewUrl")
-
-            handler.post {
+        compositeDisposable.add(Observable.just<Void>(null)
+            .subscribeOn(Schedulers.io())
+            .map {
+                val htmlString = loadHtmlPageUrl(url)
+                if (htmlString != "") {
+                    var previewUrl = htmlString.substring(htmlString.indexOf(START_PREVIEW_URL))
+                    previewUrl = previewUrl.substring(
+                        START_PREVIEW_URL.length,
+                        previewUrl.indexOf(END_PREVIEW_URL)
+                    )
+                    Log.d("PreviewUrl", "Preview url: $previewUrl")
+                }
+            }
+            .switchMap {
+                val loadSubject = PublishSubject.create<Int>()
                 Glide.with(view)
-                    .load(previewUrl)
+                    .load(it)
                     .addListener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(
                             e: GlideException?,
@@ -63,7 +80,7 @@ class ModelImpl(
                             target: Target<Drawable>?,
                             isFirstResource: Boolean
                         ): Boolean {
-                            listener?.invoke(ERROR_DOWNLOAD)
+                            loadSubject.onError(IllegalArgumentException())
                             return true
                         }
 
@@ -74,14 +91,24 @@ class ModelImpl(
                             dataSource: DataSource?,
                             isFirstResource: Boolean
                         ): Boolean {
-                            listener?.invoke(SUCCESS_DOWNLOAD)
+                            loadSubject.onNext(SUCCESS_DOWNLOAD)
                             return false
                         }
 
                     })
                     .into(view)
+                loadSubject
             }
-        }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    listener?.invoke(SUCCESS_DOWNLOAD)
+                },
+                {
+                    listener?.invoke(ERROR_DOWNLOAD)
+                }
+            )
+        )
     }
 
     override fun getVideoFiles() =
@@ -90,7 +117,12 @@ class ModelImpl(
     override fun rate() {
         val appPackageName = context.packageName
         try {
-            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+            context.startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=$appPackageName")
+                )
+            )
         } catch (exception: ActivityNotFoundException) {
             context.startActivity(
                 Intent(
@@ -122,7 +154,11 @@ class ModelImpl(
                 intentShareFile.type = "video/*"
 
                 val uri =
-                    FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", File(path))
+                    FileProvider.getUriForFile(
+                        context,
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        File(path)
+                    )
 
                 intentShareFile.putExtra(Intent.EXTRA_STREAM, uri)
                 intentShareFile.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)

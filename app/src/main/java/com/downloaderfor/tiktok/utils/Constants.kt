@@ -12,3 +12,6 @@ const val LATER_RATE_COUNT = 5
 const val PREFS_NAME = "preference"
 const val LATER_COUNT_PREF = "never"
 const val NEVER_PREF = "never"
+
+const val START_PREVIEW_URL = "\"covers\":[\""
+const val END_PREVIEW_URL = "\"]"

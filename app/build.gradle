@@ -63,6 +63,11 @@ dependencies {
 
     implementation 'de.cketti.mailto:email-intent-builder:1.0.0'
     implementation 'com.yandex.android:mobmetricalib:3.5.3'
+
+    //RxJava2
+    implementation "io.reactivex.rxjava2:rxjava:2.2.7"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
+    api 'com.github.davidmoten:rxjava2-extras:0.1.33'
 }
 
 kapt {

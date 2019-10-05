@@ -13,4 +13,5 @@ interface Model {
     fun getVideoFiles(): ArrayList<File>
     fun deleteVideo(path: String)
     fun shareVideo(path: String)
+    fun dispose()
 }

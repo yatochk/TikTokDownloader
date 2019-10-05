@@ -53,7 +53,11 @@ class DownloadFragment : Fragment(), DownloaderView {
 
     private val presenter = App.component.downloadPresenter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_download, container, false)
     }
 
@@ -66,7 +70,8 @@ class DownloadFragment : Fragment(), DownloaderView {
             if (intent != null)
                 startActivity(intent)
             else {
-                val customSnackbar = CustomSnackbar.make(view as ViewGroup, CustomSnackbar.LENGTH_LONG)
+                val customSnackbar =
+                    CustomSnackbar.make(view as ViewGroup, CustomSnackbar.LENGTH_LONG)
                 customSnackbar.setText(getString(R.string.install_tik_tok))
                 customSnackbar.setAction(getString(R.string.go_install)) {
                     presenter.clickSnackAction()
@@ -112,6 +117,11 @@ class DownloadFragment : Fragment(), DownloaderView {
     override fun onStop() {
         super.onStop()
         presenter.unbindView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
     }
 
     override fun openVideo(videoPath: String) {

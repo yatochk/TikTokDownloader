@@ -69,6 +69,10 @@ class DownloadPresenter(private val model: Model) {
             view?.openVideo(lastVideoPath)
     }
 
+    fun onDestroy() {
+        model.dispose()
+    }
+
     fun urlChange(url: String?, imageView: ImageView) {
         if (url != null)
             if (url.contains(TIK_TOK_URL)) {
